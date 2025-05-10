@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>جرب الفلتر الجديد!</title>
+  <style>
+    body { text-align: center; font-family: Arial; direction: rtl; }
+    video, canvas { max-width: 100%; border: 2px solid #444; margin: 10px; }
+    button { padding: 10px 20px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>جرب الفلتر الجديد لوجهك!</h1>
+  <video id="video" autoplay playsinline></video>
+  <br>
+  <button onclick="takePicture()">التقاط الصورة</button>
+  <br>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const context = canvas.getContext('2d');
+
+    // اطلب إذن الكاميرا
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        video.srcObject = stream;
+      })
+      .catch((err) => {
+        alert("لم نتمكن من الوصول إلى الكاميرا: " + err);
+      });
+
+    function takePicture() {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    }
+  </script>
+</body>
+</html>
